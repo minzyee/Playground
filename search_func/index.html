@@ -79,6 +79,23 @@
     // 버튼 클릭 시 화면에 보여줌
     button.addEventListener("click", searchViewer);
 
+    
+
+    // 예외처리
+    // 1. 이전 검색기록 덮어쓰기 or 지우기 -> 이건 석우쓰가 잘 해둔 듯
+    // 2. 엔터치면 결과화면이 안나옴 -> 성공했다 !
+    // 3. 대소문자 구분
+    
+
+    // 1. 엔터치면 결과 화면 나오게 하기
+    const input = document.querySelector("#inp_search");
+    input.addEventListener("keyup", function(event) {
+      if (event.keyCode === 13) {
+          event.preventDefault();
+          button.click();
+        }
+    });
+
 
   </script>
 </body>
