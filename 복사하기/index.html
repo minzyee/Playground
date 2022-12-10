@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>복사하기 버튼이 어떻게 되는지 궁금했었음</title>
+</head>
+<body>
+  <div class="context-box">
+    <p class="text">hello</p>
+    <button type="button" class="copy-btn">copy</button>
+  </div>
+
+  <script>
+    // 카피기능 재밌네,,,
+    // Clipboard API 이용하기 -> window.navigator.clipboard.writeText()
+
+    // - 텍스트 복사: navigator.clipboard.writeText("복사할 텍스트") 호출하면 끝!
+    //   비동기로 복사를 수행하고 Promise 를 반환하므로, 복사가 완료되었을 때 수행할 작업을 then의 콜백함수로 넘어주면 된다.
+    // - HTML 엘리먼트의 내용 복사: input이나 textarea 등의 내용을 value** 속성으로 취득한 다음, writeText() 의 인자로 넣어 호출해주면 된다.
+    // - 일반 HTML 태그의 내용 복사: div 등의 내용도 textContent** 등으로 취득해서 복사하면 된다.
+
+
+    const contents = document.querySelector(".contents-copy-func");
+    const text = document.querySelector(".text");
+    const copyBtn = document.querySelector(".copy-btn");
+
+    // writeText()의 인자로 넣은 텍스트가 복사된다.
+    copyBtn.addEventListener("click", () => {
+      window.navigator.clipboard.writeText(text.textContent).then(() => {
+        // 복사가 완료되면 이 부분이 호출된다.
+        alert('복사 완료');
+      });
+    });
+  </script>
+</body>
+</html>
