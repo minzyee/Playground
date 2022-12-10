@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>검색 기능 구현 연습</title>
+  <style>
+    .box {
+      background: dodgerblue;
+      width: 200px;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔎 페이지 검색기능</h1>
+  <form action="#">
+    <label for="inp_search"></label>
+    <input id="inp_search" type="text">
+    <button type="button" class="search-btn">입력</button>
+  </form>
+
+  <main>
+    <div class="box">
+      나는야 DIV
+    </div>
+  </main>
+
+
+  <script>
+    // 검색하면 일치하는 데이터 찾기
+    async function searchData(inputText) {
+      const response = await fetch("data.json"); // data.json의 데이터를 받아와서 reponse 상수에 담는다.
+      const sqlTextData = await response.json(); // fetch로 데이터 받아오면, 받아온 응답에 대해서 .json() 처리 해줘야함
+      // 받아온 데이터에서 제목 또는 내용과 일치하는 inputText의 값을 result 상수에 담아준다.
+      const result = await sqlTextData.filter(_ => {
+        return _.제목.indexOf(inputText) + 1 || _.내용.indexOf(inputText) + 1
+      });
+
+      console.log("result: ", result);
+
+
+      // 일치하는 inputText의 값에 대해서, data.json의 배열을 순회한다.
+      result.forEach(_ => {
+        searchResult(_.제목, _.내용); // 검색 결과
+      });
+    }
+
+
+    // 검색 결과
+    function searchResult(제목, 내용) {
+      const a = document.createElement("a");
+      const heading3 = document.createElement("h3");
+      const p = document.createElement("p");
+      const main = document.querySelector("main");
+
+      // textContent는 documentElement의 텍스트 보여준다.
+      heading3.textContent = 제목;
+      p.textContent = 내용;
+
+      a.appendChild(heading3);
+      a.appendChild(p);
+      main.appendChild(a);
+    }
+
+
+    // 검색한 inputText에 대한 결과 리스트를 화면에 보여주기
+    const button = document.querySelector(".search-btn");
+
+    function searchViewer() {
+      const inputTextWord = document.querySelector("#inp_search").value; // 내가 입력한 텍스트에 대한 value
+      const main = document.querySelector("main");
+      main.innerText = ''; // 메인 화면 한번 지워주고
+
+      searchData(inputTextWord); // 내가 검색한 데이터와 일치하는 내용
+    }
+
+    // 버튼 클릭 시 화면에 보여줌
+    button.addEventListener("click", searchViewer);
+
+
+  </script>
+</body>
+</html>
